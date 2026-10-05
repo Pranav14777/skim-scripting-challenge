@@ -1,0 +1,327 @@
+/* ==========================================================================
+   SKIM Scripting Challenge — styles
+
+   Structure of this file:
+     1. Design tokens (light, then dark)
+     2. Base
+     3. Header
+     4. Layout (the responsive two-up)
+     5. Card
+     6. Form controls
+     7. Result and message
+     8. Focus
+
+   Spacing and type are in rem so they scale with the user's font size.
+   px is used only for borders and hairlines.
+   ========================================================================== */
+
+
+/* 1. Design tokens
+   -------------------------------------------------------------------------- */
+
+:root {
+  
+  --bg: #e8edef;
+  --surface: #ffffff;
+  --inset: #f2f5f6;
+
+  --text: #16232b;
+  --text-muted: #58646c;
+  --border: #d8e0e4;
+
+  /* A single accent, on buttons and focus rings only. */
+  --accent: #1f7a8c;
+  --accent-hover: #19606e;
+  --on-accent: #ffffff;
+
+  /* Red is reserved for errors, so it never competes with the teal accent. */
+  --error-text: #9b1c1c;
+  --error-border: #c0392b;
+
+  --shadow: 0 1px 2px rgba(16, 24, 28, 0.04), 0 8px 24px rgba(16, 24, 28, 0.06);
+  --radius: 0.75rem;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1214;
+    --surface: #15181a;
+    --inset: #0f1214;
+    --text: #e8eaeb;
+    --text-muted: #a3abae;
+    --border: #262b2e;
+
+    /* A lighter teal: the light-mode accent is far too dark on a dark surface. */
+    --accent: #4db6c9;
+    --accent-hover: #6ec8d8;
+    --on-accent: #0f1214;
+
+    /* Same reasoning as the accent: the light-mode reds are far too dark here. */
+    --error-text: #f5a3a3;
+    --error-border: #e06c6c;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0f1214;
+  --surface: #15181a;
+  --inset: #0f1214;
+  --text: #e8eaeb;
+  --text-muted: #a3abae;
+  --border: #262b2e;
+  --accent: #4db6c9;
+  --accent-hover: #6ec8d8;
+  --on-accent: #0f1214;
+  --error-text: #f5a3a3;
+  --error-border: #e06c6c;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+
+/* 2. Base
+   -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+body {
+  min-height: 100vh;  /* fallback for browsers without dvh */
+  min-height: 100dvh; /* excludes mobile browser chrome, so it is the real height */
+  margin: 0 auto;
+  max-width: 64rem;
+  padding: clamp(1.5rem, 8vw, 3.5rem) 1rem 2rem;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+
+/* 3. Header
+   -------------------------------------------------------------------------- */
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.site-header__title {
+  font-size: clamp(1.5rem, 1.15rem + 1.2vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.theme-toggle {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background-color: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+}
+
+
+/* 4. Layout — Challenge 3
+   --------------------------------------------------------------------------
+   Mobile first: one column, so narrow screens need no override. The single
+   media query is the only place the two-up is switched on. */
+
+.layout {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+/* 5. Card
+   --------------------------------------------------------------------------
+  */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.card__title {
+  font-size: 1.125rem;
+  line-height: 1.3;
+}
+
+
+/* 6. Form controls
+   -------------------------------------------------------------------------- */
+
+.card__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.field__label {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.field__input {
+  width: 100%;
+  max-width: 16rem;
+  min-height: 2.75rem; /* 44px — a comfortable touch target */
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background-color: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 1.125rem;
+  text-align: center;
+  -moz-appearance: textfield; /* older Firefox */
+  appearance: textfield;      /* hides the spinner arrows; see the rule below */
+}
+
+/* Ties the field to its message: script.js sets aria-invalid when validation
+   fails, so the attribute that tells assistive tech about the problem is the same
+   one that shows it visually. No extra class to keep in sync. */
+.field__input[aria-invalid="true"] {
+  border-color: var(--error-border);
+}
+
+/*
+  Hides the spinner arrows without giving up type="number".
+
+  The arrows come from type="number" itself, not from min/max, so this is the only
+  thing that removes them. The input keeps everything we rely on: the numeric
+  keypad on mobile, the min/max/step attributes, and the validity object script.js
+  reads. Hiding the arrows also lets the value sit properly centred, which they
+  push off to one side.
+
+  Two declarations are needed because browsers expose the control differently.
+  Firefox uses appearance, which sits in the rule above with the field's other
+  properties; Chrome, Edge and Safari expose pseudo-elements, which need their own
+  selector and so live here. Up and Down arrow keys still step the value in both.
+*/
+.field__input::-webkit-outer-spin-button,
+.field__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.button {
+  width: 100%;
+  max-width: 16rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  background-color: var(--accent);
+  color: var(--on-accent);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--accent-hover);
+}
+
+
+/* 7. Result and message
+   -------------------------------------------------------------------------- */
+
+.message {
+  width: 100%;
+  max-width: 16rem;
+  margin-inline: auto;
+  min-height: 5rem;
+}
+
+
+.message:not(:empty) {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0 0.5rem 0.75rem;
+  border-left: 4px solid var(--error-border);
+  color: var(--error-text);
+  font-size: 0.875rem;
+  text-align: left;
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: auto; /* pins the result to the bottom so both cards line up */
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background-color: var(--inset);
+}
+
+.result__label {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.result__value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  /* Long factorials break rather than widening the card. */
+  overflow-wrap: anywhere;
+}
+
+.result__value--text {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+
+/* 8. Focus
+   -------------------------------------------------------------------------- */
+
+.field__input:focus,
+.button:focus-visible,
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
