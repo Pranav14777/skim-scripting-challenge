@@ -214,9 +214,6 @@ validation passes. The same attribute drives the field's red border through
 technology is also what shows it on screen, with no separate CSS class to keep in step.
 The message container has `role="alert"`, so it is read out as soon as it is filled.
 
-**No em dashes in anything on screen.** Messages read `89 is out of range - enter a number
-between 1 and 18.` A check asserts it.
-
 ## Layout
 
 **Grid outside, flexbox inside.** Grid handles the two-up in two lines of CSS. Flexbox
